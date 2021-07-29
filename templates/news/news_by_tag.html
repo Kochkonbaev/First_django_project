@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for one_news in news_by_tag %}
+    <h1>{{one_news.title}}</h1>>
+    <img src={{one_news.img}} height="100" width="150" >
+    <h3>{{one_news.text}}</h3>
+    <a href={% url 'news_detail' pk=one_news.pk %}>Читать полностью</a>
+    
+    {% endfor %}
+
+{% endblock %}

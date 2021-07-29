@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Новости
+{% endblock %}
+{% block content %}
+<div class="card" style="width: 18rem;">
+   
+    {% for one_news in all_news %}
+    <img src={{one_news.img}} class="card-img-top">
+    <div class="card-body">
+      <h5 class="card-title">{{one_news.title}}</h5>
+      <p class="card-text">{{one_news.text}}</p>
+      <a href={% url 'news_detail' pk=one_news.pk %} class="btn btn-primary">Читать полностью</a>
+    </div>
+
+    
+    {% endfor %}
+</div>
+{% endblock %}
