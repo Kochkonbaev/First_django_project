@@ -1,13 +1,29 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import News, Tag
-from .forms import NewForm
+from .forms import NewForm, NewFormTag
 from django.http import HttpResponseNotFound
 from comments.forms import CommentForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def news(request):
     news = News.objects.all()
-    return render(request, 'news/news.html', {'all_news': news})
+    paginator = Paginator(news, 3)  # 3 поста на каждой странице
+    page = request.GET.get('page')
+    try:
+        news = paginator.page(page)
+    except PageNotAnInteger:
+        # Если страница не является целым числом а буквлй или что то еще
+        news = paginator.page(1)
+    except EmptyPage:
+        # Если страница больше максимальной, доставит на конечную страницу
+        news = paginator.page(paginator.num_pages)
+    return render(request, 'news/news.html', {'all_news': news, 'page': page})
+
+
+# def news(request):
+#     news = News.objects.all()
+#     return render(request, 'news/news.html', {'all_news': news})
 
 
 def news_detail(request, pk):
@@ -23,10 +39,10 @@ def news_detail(request, pk):
         comment_form = CommentForm()
 
     return render(request,
-                'news/news_detail.html',
-                {'news_detail': news_detail,
-                'comments': comments,
-                'comment_form': comment_form})
+                  'news/news_detail.html',
+                  {'news_detail': news_detail,
+                   'comments': comments,
+                   'comment_form': comment_form})
 
 
 def news_new(request):
@@ -59,6 +75,7 @@ def news_delete(request, pk):
         news = News.objects.get(id=pk)
         news.delete()
         return redirect('all_news')
+
     except:
         return HttpResponseNotFound("<h2>Такой страницы нет</h2>")
 
@@ -66,4 +83,17 @@ def news_delete(request, pk):
 def tag_detail_view(request, pk):
     tag = get_object_or_404(Tag, id=pk)
     news_by_tag = tag.news_set.all()
-    return render(request, 'news/news_by_tag.html', {'news_by_tag': news_by_tag})
+    return render(request, 'news/news_by_tag.html',
+                  {'news_by_tag': news_by_tag, 'tags': tag})
+
+
+def create_tag(request):
+    if request.method == "POST":
+        form = NewFormTag(request.POST)
+        if form.is_valid():
+            news = form.save(commit=False)
+            news.save()
+            return redirect('news_new')
+    else:
+        form = NewFormTag()
+    return render(request, 'news/create_tag.html', {'form': form})

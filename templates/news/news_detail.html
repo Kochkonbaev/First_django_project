@@ -9,7 +9,11 @@
     <font size=6>{{news_detail.title}}</font>
     <br>
     <h3>{{news_detail.text}}</h3>>
+    <br>
+    <h3>{{tags.tag}}</h3>>
     <img src={{news_detail.img}} height="100" width="150">
+    <br>
+    <br>
     <br>
     <a class="btn btn-default" href="{% url 'news_delete' pk=news_detail.pk %}"><span class="glyphicon glyphicon-remove"></span> Удалить</a>
     <a class="btn btn-default" href="{% url 'news_edit' pk=news_detail.pk %}"><span class="glyphicon glyphicon-pencil"></span> Редактировать</a>

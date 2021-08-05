@@ -1,12 +1,11 @@
 from django.db import models
-from django.db.models.deletion import SET_NULL
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=63)
+    tag = models.CharField(max_length=63)
 
     def __str__(self):
-        return self.name
+        return self.tag
 
 
 class News(models.Model):

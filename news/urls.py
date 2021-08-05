@@ -7,5 +7,6 @@ urlpatterns = [
     path('new/', news_new, name='news_new'),
     path('<int:pk>/edit/', news_edit, name='news_edit'),
     path('<int:pk>/delete/', news_delete, name='news_delete'),
-    path('tag/<int:pk>/', tag_detail_view, name='tag_detail_view')
+    path('tag/<int:pk>/', tag_detail_view, name='news_by_tag'),
+    path('tag/create', create_tag, name='create_tag'),
 ]

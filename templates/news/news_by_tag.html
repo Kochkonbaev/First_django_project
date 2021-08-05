@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %}{{tag.text}}{% endblock %}
 {% block content %}
 
     {% for one_news in news_by_tag %}
@@ -7,7 +7,8 @@
     <img src={{one_news.img}} height="100" width="150" >
     <h3>{{one_news.text}}</h3>
     <a href={% url 'news_detail' pk=one_news.pk %}>Читать полностью</a>
-    
+
+
     {% endfor %}
 
 {% endblock %}

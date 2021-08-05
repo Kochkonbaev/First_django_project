@@ -1,6 +1,6 @@
 from django import AppConfig
 
 
-class CommentsConfig(AppConfig):
+class AccountConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'comments'
+    name = 'account'
